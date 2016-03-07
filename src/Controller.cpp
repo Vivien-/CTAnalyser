@@ -89,6 +89,15 @@ void Controller::displayTrackers(Mat& frame){
 	}
 }
 
+int Controller::getEntered(int lineId) {
+
+	return 0;
+}
+
+int Controller::getLeft(int lineId) {
+	return 0;
+}
+
 void Controller::processTrackers(Mat& im_gray, std::vector<Rect>& logos, CMT* cmt) {
 	for(std::map<int,Tracker>::iterator it = trackers.begin(); it != trackers.end(); ++it) {
 		trackers[it->first].processCMT(im_gray);

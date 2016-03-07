@@ -40,7 +40,7 @@ public:
 	cv::Mat currentBackground;
 	cv::Point X;
 	cv::Point Y;
-
+	string window_name;
 
 private:
 	void drawLine(const Line &l, cv::Scalar color);

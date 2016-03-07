@@ -51,6 +51,7 @@ LineController::LineController() {
 	next_id = 1;
 	destroy_window = false;
 	destroyed = false;
+	click_nb = 0;
 }
 
 LineController::~LineController() {

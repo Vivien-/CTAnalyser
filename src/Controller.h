@@ -37,6 +37,8 @@ public:
 	void displayTrackers(Mat& frame);
 	void processTrackers(Mat& im_gray, std::vector<Rect>& logos, CMT* cmt);
 	void deleteUselessTrackers(std::vector<Rect>& logos);
+	int getEntered(int lineId);
+	int getLeft(int lineId);
 
 private:
 	std::map<int,Line> lines;
