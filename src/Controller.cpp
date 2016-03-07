@@ -20,18 +20,25 @@ Controller::~Controller() {
 
 void Controller::addLine(Line& l){
 	lines.insert(std::pair<int,Line>(l.getId(), l));
+	//A counter is linked to each new line
+	Counter c(l,next_id_line);
+	addCounter(c);
 	next_id_line++;
 }
+
 void Controller::removeLine(int id){
 	lines.erase(id);
 }
+
 void Controller::addTracker(Tracker& t){
 	trackers.insert(std::pair<int,Tracker>(t.getId(), t));
 	next_id_tracker++;
 }
+
 void Controller::removeTracker(int id){
 	trackers.erase(id);
 }
+
 void Controller::addCounter(Counter& c){
 	counters.insert(std::pair<int, Counter>(c.getId(), c));
 	next_id_counter++;

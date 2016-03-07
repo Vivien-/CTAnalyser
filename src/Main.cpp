@@ -98,7 +98,8 @@ int main(int argc, char **argv){
 		//compute number of tracker entering and leaving a line
 		int entered = controller->getEntered(0);
 		int left = controller->getLeft(0);
-
+		putText(frame, to_string(entered) + to_string(left), Point(5,15), CV_FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,255,0));
+		imshow(window_name, frame);
 		waitKey(0);
 	}
 	return 0;
