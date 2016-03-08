@@ -35,10 +35,7 @@ void mouseCallback(int event, int _x, int _y, int , void* instance){
 			Y->x = _x;
 			Line l = that->addLine();
 			Counter counter(l, l.getId());
-			that->controller->addCounter(counter);
 			that->controller->addLine(l);
-			//that->draw();
-			//imshow(windowName, );
 			int this_id = that->getNextId() - 1;
 			that->buttons_id[that->new_button] = this_id;
 			createButton(patch::to_string(this_id), buttonCallback, that, CV_CHECKBOX);

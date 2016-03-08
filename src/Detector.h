@@ -8,8 +8,6 @@
 #ifndef SRC_DETECTOR_H_
 #define SRC_DETECTOR_H_
 
-#include <cstdlib>
-#include <string>
 #include <opencv.hpp>
 
 using namespace std;

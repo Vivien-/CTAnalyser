@@ -79,26 +79,30 @@ int main(int argc, char **argv){
 
 		std::map<int,Tracker> trackers = controller->getTrackers();
 		cmt = new CMT();
+		FILELog::ReportingLevel() = logINFO;
 
 		//dont track an object that has not been detected for a long time
-		cout<<"Identifying and deleting useless trackers..."<<endl;
+//		cout<<"Identifying and deleting useless trackers..."<<endl;
 		controller->deleteUselessTrackers(logos);
-		cout<<"Useless trackers deleted"<<endl;
+//		cout<<"Useless trackers deleted"<<endl;
 
 		//create and update tracker using detected object
 		controller->processTrackers(im_gray, logos, cmt);
-		cout<<"Trackers processed"<<endl;
+//		cout<<"Trackers processed"<<endl;
 
 		//display trackers
 		controller->displayTrackers(frame);
 		imshow(window_name, frame);
-		cout<<"Trackers displayed"<<endl;
-		cout<<"Number of trackers: "<<controller->getTrackers().size()<<endl;
+//		cout<<"Trackers displayed"<<endl;
+//		cout<<"Number of trackers: "<<controller->getTrackers().size()<<endl;
 
 		//compute number of tracker entering and leaving a line
-		int entered = controller->getEntered(0);
-		int left = controller->getLeft(0);
-		putText(frame, to_string(entered) + to_string(left), Point(5,15), CV_FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,255,0));
+		if(lController->getLines().size()) {
+			controller->updateCountersSituation();
+			int entered = controller->getEntered(0);
+			int left = controller->getLeft(0);
+			putText(frame, to_string(entered) + to_string(left), Point(5,15), CV_FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,255,0));
+		}
 		imshow(window_name, frame);
 		waitKey(0);
 	}

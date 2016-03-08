@@ -23,8 +23,7 @@ public:
 	void removeTracker(int id);
 	void addCounter(Counter& c);
 	void removeCounter(int id);
-	void addTrackerToCounter(int idTracker, int idCounter);
-	void removeTrackerFromCounter(int idTracker, int idCounter);
+	void setTrackerToCounter(int idTracker, int idCounter);
 	std::map<int, Line>& getLines();
 	Line& getLine(int id);
 	std::map<int, Counter>& getCounters();
@@ -39,6 +38,7 @@ public:
 	void deleteUselessTrackers(std::vector<Rect>& logos);
 	int getEntered(int lineId);
 	int getLeft(int lineId);
+	void updateCountersSituation();
 
 private:
 	std::map<int,Line> lines;

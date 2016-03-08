@@ -16,9 +16,10 @@ Counter::Counter() {
 
 Counter::~Counter() {
 	// TODO Auto-generated destructor stub
+	std::cout<<"~Counter()"<<std::endl;
 }
 
-Counter::Counter(Line& l, int id_): line(l), id(id_){
+Counter::Counter(Line& l, int id_): id(id_), line(l){
 	a = (l.getX().y - l.getY().y)/(l.getX().x - l.getY().x);
 	b = l.getX().y - a*l.getX().x;
 	in = 0;
@@ -39,6 +40,7 @@ int Counter::removeTracker(Tracker& tracker){
 			return i;
 		}
 	}
+	return -1;
 }
 
 
@@ -53,9 +55,11 @@ int Counter::getOut() const{
 
 
 void Counter::updateSituation() {
+	std::cout<<"nb of tracker in counter "<<id<<": "<<trackers.size()<<std::endl;
 	for(uint i = 0; i < trackers.size(); i++){
 		cv::Point c = trackers[i].current();
 		cv::Point init = trackers[i].initial();
+		std::cout<<"[Counter.cpp:61] Initial pos of tracker "<<trackers[i].getId()<<" is "<<init<<std::endl;
 		if(c.y >= std::min(line.getX().y, line.getY().y) && c.y <= std::max(line.getX().y, line.getY().y)) {
 			if(!isInside(init) && isInside(c)) {
 				in ++;
@@ -68,9 +72,9 @@ void Counter::updateSituation() {
 			else
 				stay ++;
 		}
+		std::cout<<"[Counter.cpp:74] New set init position of tracker "<<trackers[i].getId()<<" is "<<trackers[i].initial()<<std::endl;
 	}
 }
-
 
 bool Counter::isInside(const cv::Point& c) const {
 	if(a > 0)

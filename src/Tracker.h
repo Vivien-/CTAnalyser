@@ -25,15 +25,19 @@ public:
 	int getId() const;
 	int getLifetime() const;
 	void setLifetime(int l);
+	void setCounterId(int id);
+	int getCounterId() const;
 	void display(Mat& frame);
 	void processCMT(Mat& gray_frame);
 	CMT* getCMT();
+
 private:
 	int id;
 	int lifetime;
 	Point c;
 	Point i;
 	CMT* cmt;
+	int counterId;
 };
 
 inline bool operator==(const Tracker& t1, const Tracker& t2){ return t1.getId() == t2.getId(); }

@@ -22,10 +22,10 @@ public:
 	void updateSituation();
 	int getId() const;
 	void setLine(Line& l);
+	std::vector<Tracker> trackers;
 private:
 	int id;
 	Line line;
-	std::vector<Tracker> trackers;
 	float a;
 	float b;
 	int in, out, stay;
