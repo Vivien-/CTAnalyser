@@ -3,6 +3,8 @@
  *
  *  Created on: 11 févr. 2016
  *      Author: vivien
+ *
+ *  Describe a line by its endpoints
  */
 
 #ifndef LINE_H_
