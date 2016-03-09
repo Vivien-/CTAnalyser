@@ -1,5 +1,7 @@
 #include "Consensus.h"
-
+#ifndef M_PI
+#define M_PI           3.14159265358979323846
+#endif
 #define _USE_MATH_DEFINES //Necessary for M_PI to be available on Windows
 #include <cmath>
 

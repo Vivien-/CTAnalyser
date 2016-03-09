@@ -8,7 +8,7 @@
 #ifndef TRACKER_H_
 #define TRACKER_H_
 #include "CppMT/CMT.h"
-#include <opencv.hpp>
+#include <opencv2/opencv.hpp>
 
 using namespace cv;
 using cmt::CMT;

@@ -1,14 +1,16 @@
 /*
  * Detector.h
  *
- *  Created on: 12 févr. 2016
- *      Author: vivien
+ *  Created on: 12 february. 2016
+ *      Author: Vivien & Mohammed
+ *
+ *  Detector is class responsible of detecting people in an image
  */
 
 #ifndef SRC_DETECTOR_H_
 #define SRC_DETECTOR_H_
 
-#include <opencv.hpp>
+#include <opencv2/opencv.hpp>
 
 using namespace std;
 using namespace cv;
@@ -18,6 +20,7 @@ public:
 	Detector();
 	Detector(string& s);
 	virtual ~Detector();
+	//a methos
 	void detectAndMark(Mat &frame, CascadeClassifier& logo_cascade, vector<Rect>& logos);
 private:
 	String window_name;

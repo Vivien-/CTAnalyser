@@ -12,7 +12,7 @@
 #include "Controller.h"
 #include "Detector.h"
 #include "LineController.h"
-#include <opencv.hpp>
+#include <opencv2/opencv.hpp>
 #include "opencv2/objdetect/detection_based_tracker.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -47,7 +47,7 @@ int main(int argc, char **argv){
 	//load xml
 	if(!logo_cascade.load(argv[1]) ){ printf("--(!)Error loading face cascade\n"); return -1; };
 	//get video
-	capture.open( -1 );
+	capture.open( 0 );
 	if (!capture.isOpened() ) { printf("--(!)Error opening video capture\n"); return -1; }
 
 	/**

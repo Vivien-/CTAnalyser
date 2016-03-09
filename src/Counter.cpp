@@ -6,7 +6,7 @@
  */
 
 #include "Counter.h"
-#include <opencv.hpp>
+#include <opencv2/opencv.hpp>
 
 
 Counter::Counter() {

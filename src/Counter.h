@@ -1,8 +1,13 @@
 /*
  * Counter.h
  *
- *  Created on: 11 févr. 2016
- *      Author: vivien
+ *  Created on: 11 february. 2016
+ *      Author: vivien & Mohammed
+ *
+ *  Counter is a class that counts the number of people entering and leaving each train car.
+ *  The entrance of a train car is represented by a line. Whenever a tracker crosses a line,
+ *  the number of people inside or outside the car is incremented. To each counter we associate
+ *  a single line and a set of trackers. These trackers are generally nearby the line.
  */
 
 #ifndef COUNTER_H_
