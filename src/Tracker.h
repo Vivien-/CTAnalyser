@@ -2,7 +2,9 @@
  * Tracker.h
  *
  *  Created on: 11 févr. 2016
- *      Author: vivien
+ *      Author: vivien & mohammed
+ *
+ *  Create and follow a tracker corresponding to a detected object
  */
 
 #ifndef TRACKER_H_

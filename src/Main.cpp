@@ -2,7 +2,7 @@
  * Main.cpp
  *
  *  Created on: 11 févr. 2016
- *      Author: mohammed
+ *      Author: vivien & mohammed
  */
 
 #include "Line.h"
@@ -28,15 +28,16 @@ void usage(const char *s){
 
 int main(int argc, char **argv){
 	VideoCapture capture;
+	//these are used by the tracker
 	CMT* cmt;
+	CascadeClassifier logo_cascade;
 	Mat frame;
 	string window_name = "window";
-	CascadeClassifier logo_cascade;
-	const int LIFETIME = 10;
+	const int LIFETIME = 10; //lifetime (number of frame) of a tracker without getting detected before being delted
 	LineController * lController = new LineController();
 	Controller *controller = new Controller(LIFETIME);
 	lController->setController(controller);
-	Detector d(window_name);
+	Detector d(window_name); //detect and display the trackers
 	// check number of arguments
 	if(argc < 2) {
 		usage(argv[0]);
@@ -51,13 +52,13 @@ int main(int argc, char **argv){
 	if (!capture.isOpened() ) { printf("--(!)Error opening video capture\n"); return -1; }
 
 	/**
-	 * Uncomment for lighter execution time
+	 * Uncomment for lighter execution time (if dimensions are too small it may not be applied)
 	 */
 	//capture.set(CV_CAP_PROP_FRAME_WIDTH, 600);
 	//capture.set(CV_CAP_PROP_FRAME_HEIGHT, 160);
 
-	//for all frames
 	int idframe = 0;
+	//for every frames
 	while(capture.read(frame)){
 		std::cout<<"Frame n° "<<idframe++<<std::endl;
 		//check that camera is working
@@ -66,7 +67,7 @@ int main(int argc, char **argv){
 			break;
 		}
 
-		Mat im_gray;
+		Mat im_gray; //is used by the object tracking function
 		if (frame.channels() > 1) {
 			cvtColor(frame, im_gray, CV_BGR2GRAY);
 		} else {
@@ -84,20 +85,11 @@ int main(int argc, char **argv){
 		cmt = new CMT();
 		FILELog::ReportingLevel() = logERROR   ; //Remove CMT low level logs; comment if you want them
 
-		for(auto it = controller->getCounters().begin(); it != controller->getCounters().end(); ++it) {
-			std::vector<Tracker> trackers = controller->getCounters()[it->first].trackers;
-			for(uint i = 0; i < trackers.size(); i++)
-				std::cout<<"["<<__FILE__<<":"<< __LINE__<<"] Initial pos of tracker "<<trackers[i].getId()<<" is "<<trackers[i].initial()<<std::endl;
-		}
-
 		//dont track an object that has not been detected for a long time
-//		cout<<"Identifying and deleting useless trackers..."<<endl;
 		controller->deleteUselessTrackers(logos);
-//		cout<<"Useless trackers deleted"<<endl;
 
 		//create and update tracker using detected object
 		controller->processTrackers(im_gray, logos, cmt);
-//		cout<<"Trackers processed"<<endl;
 
 		for(auto it = controller->getCounters().begin(); it != controller->getCounters().end(); ++it) {
 			std::vector<Tracker> trackers = controller->getCounters()[it->first].trackers;
@@ -107,16 +99,10 @@ int main(int argc, char **argv){
 
 		//display trackers
 		controller->displayTrackers(frame);
-//		cout<<"Trackers displayed"<<endl;
-//		cout<<"Number of trackers: "<<controller->getTrackers().size()<<endl;
 
 		//compute number of tracker entering and leaving a line
-		if(lController->getLines().size()) {
-			controller->updateCountersSituation();
-			int entered = controller->getEntered(0);
-			int left = controller->getLeft(0);
-			putText(frame, to_string(entered) + to_string(left), Point(5,15), CV_FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,255,0));
-		}
+		controller->displaySituation(frame);
+
 		imshow(window_name, frame);
 		waitKey(10);
 	}

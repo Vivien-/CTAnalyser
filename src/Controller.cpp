@@ -4,11 +4,9 @@
  *  Created on: 11 févr. 2016
  *      Author: vivien
  */
-#include <time.h>
 #include "Controller.h"
 
 Controller::Controller(int lf) {
-	srand (time(NULL));
 	next_id_counter = 0;
 	next_id_line = 0;
 	lifetime = lf;
@@ -204,6 +202,18 @@ void Controller::deleteUselessTrackers(std::vector<Rect>& logos) {
 				}
 			} else
 				++it2;
+		}
+	}
+}
+
+void Controller::displaySituation(Mat& frame) {
+	if(getLines().size()) {
+		updateCountersSituation();
+		int i = 0;
+		for(auto it = lines.begin(); it != lines.end(); ++it) {
+			int entered = getEntered(0);
+			int left = getLeft(0);
+			putText(frame, std::to_string(entered) + " " + std::to_string(left), Point(5,15+15*i++), CV_FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,255,0));
 		}
 	}
 }

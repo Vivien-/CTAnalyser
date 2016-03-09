@@ -7,6 +7,9 @@
 
 #include "LineController.h"
 #include "patch.hpp"
+#include "Line.h"
+#include "Counter.h"
+#include "Controller.h"
 
 using namespace std;
 using namespace cv;

@@ -48,6 +48,7 @@ public:
 	int getLeft(int lineId);
 	//Update the counters asociated to each line
 	void updateCountersSituation();
+	void displaySituation(Mat &frame);
 
 private:
 	std::map<int,Line> lines;
