@@ -6,7 +6,6 @@
  */
 
 #include "LineController.h"
-#include "patch.hpp"
 #include "Line.h"
 #include "Counter.h"
 #include "Controller.h"
@@ -48,7 +47,7 @@ void mouseCallback(int event, int _x, int _y, int , void* instance){
 			that->controller->addLine(l);
 			int this_id = that->getNextId() - 1;
 			that->buttons_id[that->new_button] = this_id;
-			createButton(patch::to_string(this_id), buttonCallback, that, CV_CHECKBOX);
+			createButton(std::to_string(this_id), buttonCallback, that, CV_CHECKBOX);
 		}
 		(*click_nb)++;
 	}
@@ -132,7 +131,7 @@ void LineController::process(std::string windowName, Mat & frame){
 		for(uint i = 0; i < lines.size(); ++i){
 			int this_id = lines[i].getId();
 			buttons_id[new_button] = this_id;
-			createButton(patch::to_string(this_id), buttonCallback, &buttons_id[new_button++], CV_CHECKBOX);
+			createButton(std::to_string(this_id), buttonCallback, &buttons_id[new_button++], CV_CHECKBOX);
 		}
 		setMouseCallback(windowName, mouseCallback, NULL);
 		destroyed = false;
