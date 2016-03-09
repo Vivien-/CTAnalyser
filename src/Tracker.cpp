@@ -12,7 +12,7 @@ Tracker::Tracker() {
 }
 
 Tracker::~Tracker() {
-	std::cout<<"~Tracker()"<<std::endl;
+//	std::cout<<"~Tracker()"<<std::endl;
 	// TODO Auto-generated destructor stub
 }
 
@@ -77,7 +77,6 @@ void Tracker::processCMT(Mat& gray_frame) {
 	cmt->processFrame(gray_frame);
 	Point p(cmt->bb_rot.center.x, cmt->bb_rot.center.y);
 	setCurrent(p);
-
 }
 
 CMT* Tracker::getCMT() {

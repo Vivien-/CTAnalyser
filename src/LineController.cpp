@@ -11,7 +11,10 @@
 using namespace std;
 using namespace cv;
 
-
+/**
+ * Delete line by changing corresponding check button state
+ * TODO Would probably throw a segfault, some work is needed here
+ */
 void buttonCallback(int , void *instance){
 	LineController * that = static_cast<LineController*>(instance);
 	int id = that->getNextId() - 2;
@@ -21,6 +24,10 @@ void buttonCallback(int , void *instance){
 	that->destroy_window = true;
 }
 
+/**
+ * Create a line every two clicks on the image screen
+ * TODO Might throw a segfault as well, some work is probably needed here
+ */
 void mouseCallback(int event, int _x, int _y, int , void* instance){
 	LineController * that = static_cast<LineController*>(instance);
 	int* click_nb = &(that->click_nb);
@@ -117,7 +124,7 @@ void LineController::process(std::string windowName, Mat & frame){
 
 	setBackground(frame);
 	draw();
-	imshow(windowName, frame);
+//	imshow(windowName, frame);
 	if(destroyed) {
 		for(uint i = 0; i < lines.size(); ++i){
 			int this_id = lines[i].getId();
@@ -126,14 +133,12 @@ void LineController::process(std::string windowName, Mat & frame){
 		}
 		setMouseCallback(windowName, mouseCallback, NULL);
 		destroyed = false;
-
-		waitKey(0);
+//		waitKey(0);
 	}
 }
 
 
 void LineController::setController(Controller *c){
-
 	controller = c;
 }
 

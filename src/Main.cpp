@@ -57,7 +57,9 @@ int main(int argc, char **argv){
 	//capture.set(CV_CAP_PROP_FRAME_HEIGHT, 160);
 
 	//for all frames
+	int idframe = 0;
 	while(capture.read(frame)){
+		std::cout<<"Frame n° "<<idframe++<<std::endl;
 		//check that camera is working
 		if( frame.empty() ){
 			printf(" --(!) No captured frame -- Break!");
@@ -70,16 +72,23 @@ int main(int argc, char **argv){
 		} else {
 			im_gray = frame;
 		}
-		//allow us to draw/display/delete lines on the frame
+
+		//allow us to draw/display/delete lines on the frame using the line controller
 		lController->process(window_name, frame);
 
-		//detect the trained object
+		//detect the trained object and display it on the image
 		vector<Rect> logos;
 		d.detectAndMark(frame, logo_cascade, logos);
 
 		std::map<int,Tracker> trackers = controller->getTrackers();
 		cmt = new CMT();
-		FILELog::ReportingLevel() = logINFO;
+		FILELog::ReportingLevel() = logERROR   ; //Remove CMT low level logs; comment if you want them
+
+		for(auto it = controller->getCounters().begin(); it != controller->getCounters().end(); ++it) {
+			std::vector<Tracker> trackers = controller->getCounters()[it->first].trackers;
+			for(uint i = 0; i < trackers.size(); i++)
+				std::cout<<"["<<__FILE__<<":"<< __LINE__<<"] Initial pos of tracker "<<trackers[i].getId()<<" is "<<trackers[i].initial()<<std::endl;
+		}
 
 		//dont track an object that has not been detected for a long time
 //		cout<<"Identifying and deleting useless trackers..."<<endl;
@@ -90,9 +99,14 @@ int main(int argc, char **argv){
 		controller->processTrackers(im_gray, logos, cmt);
 //		cout<<"Trackers processed"<<endl;
 
+		for(auto it = controller->getCounters().begin(); it != controller->getCounters().end(); ++it) {
+			std::vector<Tracker> trackers = controller->getCounters()[it->first].trackers;
+			for(uint i = 0; i < trackers.size(); i++)
+				std::cout<<"["<<__FILE__<<":"<< __LINE__<<"] Initial pos of tracker "<<trackers[i].getId()<<" is "<<trackers[i].initial()<<std::endl;
+		}
+
 		//display trackers
 		controller->displayTrackers(frame);
-		imshow(window_name, frame);
 //		cout<<"Trackers displayed"<<endl;
 //		cout<<"Number of trackers: "<<controller->getTrackers().size()<<endl;
 
@@ -104,7 +118,7 @@ int main(int argc, char **argv){
 			putText(frame, to_string(entered) + to_string(left), Point(5,15), CV_FONT_HERSHEY_SIMPLEX, 0.5, Scalar(255,255,0));
 		}
 		imshow(window_name, frame);
-		waitKey(0);
+		waitKey(10);
 	}
 	return 0;
 }

@@ -45,9 +45,11 @@ void Controller::addCounter(Counter& c){
 	counters.insert(std::pair<int, Counter>(c.getId(), c));
 	next_id_counter++;
 }
+
 void Controller::removeCounter(int id){
 	counters.erase(id);
 }
+
 void Controller::setTrackerToCounter(int idTracker, int idCounter){
 	int oldcounterid = trackers[idTracker].getCounterId();
 	if(oldcounterid != -1)
@@ -55,6 +57,7 @@ void Controller::setTrackerToCounter(int idTracker, int idCounter){
 	trackers[idTracker].setCounterId(idCounter);
 	counters[idCounter].addTracker(trackers[idTracker]);
 }
+
 std::map<int, Line>& Controller::getLines() {
 	return lines;
 }
@@ -107,8 +110,7 @@ int Controller::getLeft(int lineId) {
 
 void Controller::updateCountersSituation() {
 	for(auto it = trackers.begin(); it != trackers.end(); ++it) {
-		int bestLineId = 0;
-		// TODO bestLineId = someComputationToGetTheBestLineId();
+		int bestLineId = 0;	// TODO bestLineId = someComputationToGetTheBestLineId();
 		setTrackerToCounter(trackers[it->first].getId(), bestLineId);
 	}
 	for(auto it = counters.begin(); it != counters.end(); ++it)
@@ -117,7 +119,7 @@ void Controller::updateCountersSituation() {
 	for(auto it = counters.begin(); it != counters.end(); ++it) {
 		std::vector<Tracker> trackers = counters[it->first].trackers;
 		for(uint i = 0; i < trackers.size(); i++)
-			std::cout<<"[Controller.cpp:117] Initial pos of tracker "<<trackers[i].getId()<<" is "<<trackers[i].initial()<<std::endl;
+			std::cout<<"["<<__FILE__<<":"<< __LINE__<<"] Initial pos of tracker "<<trackers[i].getId()<<" is "<<trackers[i].initial()<<std::endl;
 	}
 }
 
@@ -139,6 +141,7 @@ void Controller::processTrackers(Mat& im_gray, std::vector<Rect>& logos, CMT* cm
 			}
 		}
 		if(match){
+			std::cout<<"New tracker of id "<<getNextIdTracker()<<std::endl;
 			cmt->initialize(im_gray, logos[i]);
 			Tracker t(cmt, getNextIdTracker(), lifetime);
 			addTracker(t);
@@ -183,17 +186,17 @@ void Controller::deleteUselessTrackers(std::vector<Rect>& logos) {
 			if(t != cur) {
 				Point2f b(cur->current());
 				RotatedRect r = cur->getCMT()->bb_rot;
-				printf("%d et %d\n", t->getId(), cur->getId());
+//				printf("%d et %d\n", t->getId(), cur->getId());
 				double dist = cv::norm(cv::Mat(a),cv::Mat(b));
 				double diameter = sqrt(r.size.width * r.size.width + r.size.height * r.size.height);
-				printf("diameter=%f\tdist=%f\n", diameter,dist);
+//				printf("diameter=%f\tdist=%f\n", diameter,dist);
 				if(dist < diameter/4){
 					//remove tracker from the counter it is linked to
 					int oldcounterid = trackers[cur->getId()].getCounterId();
 					if(oldcounterid != -1)
 						counters[oldcounterid].removeTracker(*cur);
 
-					//emove tracker from the tracker list
+					//remove tracker from the tracker list
 					trackers.erase(it2++);
 					break;
 				} else {
